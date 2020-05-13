@@ -5,6 +5,7 @@ from os.path import isfile
 import praw
 import pandas as pd
 from time import sleep
+import argparse, sys, time
 # Get credentials from DEFAULT instance in praw.ini
 reddit = praw.Reddit()
 
@@ -32,13 +33,11 @@ class Scraper:
         self.subreddit = self.reddit.subreddit(sub_reddit).top(limit=None)
 
 
-        def retrieveComment(self, comment):
+    def retrieveComment(self, comment):
         """Takes in comment object as a parameter, which is used to obtain  comment body and number of upvotes.
-        
         Note that some suspended users will still be retrieved (i.e. their comments will be added, however
         their accounts won't have suspended attribute, but will return a 404 error). We will have to remove
-        such comments if the author information cannot be found from authors data table.
-        """
+        such comments if the author information cannot be found from authors data table."""
 
         # Skip if the comment has been deleted or if the user is suspended/deleted.
 
@@ -77,8 +76,6 @@ class Scraper:
             current_time = time.strftime("%H:%M:%S", t)
             print("Collected {} records so far; Saving in progress. Time now: {}".format(length, current_time))
             data_f = pd.DataFrame(self.commentdata)
-            authors_f = pd.DataFrame(self.author)
-            gildings_f = pd.DataFrame(self.gildings)
             data_f.to_csv('../../data/raw/comment_data.csv', mode="w", index=False)
             authors_f.to_csv('../../data/raw/author_data.csv', mode="w", index=False)
             self.checkpoint += self.interval
