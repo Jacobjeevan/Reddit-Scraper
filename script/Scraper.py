@@ -112,8 +112,7 @@ class Scraper:
     def checkExitConditions(self, numOfSamples):
         if (numOfSamples >= self.minimum):
             exectime = self.getElaspedTime()
-            print("Collected {} comments so far; Total execution time: {} hours".format(
-                numOfSamples, exectime))
+            print(numOfSamples, " ", exectime)
             self.exitPrompts()
 
     def getElaspedTime(self):
