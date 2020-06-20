@@ -99,8 +99,7 @@ class Scraper:
 
     def checkSaveConditions(self, numOfSamples):
         exectime = self.getElaspedTime()
-        print("Collected {} comments so far; Saving in progress. Time elapsed: {} hours".format(
-            numOfSamples, exectime))
+        print(numOfSamples, " ", exectime)
         self.saveAllData()
         self.checkpoint += self.interval
 
