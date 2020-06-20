@@ -117,7 +117,7 @@ class Scraper:
             self.exitPrompts()
 
     def getElaspedTime(self):
-        return ((time.time() - self.exectime) / (60*60))
+        return round(((time.time() - self.exectime) / (60*60)),3)
 
     def exitPrompts(self):
         flag = True
