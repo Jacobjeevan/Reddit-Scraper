@@ -8,7 +8,6 @@ from AuthorData import AuthorData
 from GildData import GildData
 from ThreadData import ThreadData
 
-
 class Scraper:
 
     def __init__(self, args=None, subreddit=None, minimum=None, savepath=None, loadpath=None):
@@ -20,7 +19,7 @@ class Scraper:
         if args:
             self.parseArgs(args)
         else:
-            self.subreddit = subreddit
+            self.subreddit = self.reddit.subreddit(subreddit).top(limit=None)
             self.minimum = minimum
             if (savepath and savepath != "../data/raw/"):
                 self.savepath = savepath
