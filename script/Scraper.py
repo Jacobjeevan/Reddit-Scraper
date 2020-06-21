@@ -16,13 +16,13 @@ class Scraper:
         self.initializeDataObjects()
         self.reddit = praw.Reddit()
         # Default save path of the data.
-        self.savepath = "../../data/raw/"
+        self.savepath = "../data/raw/"
         if args:
             self.parseArgs(args)
         else:
             self.subreddit = subreddit
             self.minimum = minimum
-            if savepath != "../../data/raw/":
+            if (savepath and savepath != "../data/raw/"):
                 self.savepath = savepath
                 self.setDifferentSavepath()
             if loadpath:
@@ -32,7 +32,7 @@ class Scraper:
     def parseArgs(self, args):
         self.minimum = args.minimum
         self.subreddit = self.reddit.subreddit(args.subreddit).top(limit=None)
-        if args.savepath != "../../data/raw/":
+        if args.savepath != "../data/raw/":
             self.savepath = args.savepath
             self.setDifferentSavepath()
         if args.load:
@@ -143,7 +143,7 @@ class Scraper:
 def build_parser():
     """Parser to grab and store command line arguments"""
     MINIMUM = 200000
-    SAVEPATH = "../../data/raw/"
+    SAVEPATH = "../data/raw/"
     parser = argparse.ArgumentParser()
     parser.add_argument("subreddit", help="Specify the subreddit to scrape from")
     parser.add_argument("-m", "--minimum", 
