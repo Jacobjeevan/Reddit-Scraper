@@ -11,21 +11,24 @@ from ThreadData import ThreadData
 
 class Scraper:
 
-    def __init__(self, args):
-        """Parse the arguments"""
+    def __init__(self, args=None, subreddit=None, minimum=None, savepath=None, loadpath=None):
         self.exectime = time.time()
-        self.minimum = args.minimum 
         self.initializeDataObjects()
-        # Initializing the praw reddit object and calling it.
         self.reddit = praw.Reddit()
-        self.subreddit = self.reddit.subreddit(args.subreddit).top(limit=None)
         # Default save path of the data.
         self.savepath = "../../data/raw/"
+        if args:
+            self.parseArgs(args)
+        
+    def parseArgs(self, args):
+        self.minimum = args.minimum
+        self.subreddit = self.reddit.subreddit(args.subreddit).top(limit=None)
         if args.savepath != "../../data/raw/":
             self.savepath = args.savepath
             self.setDifferentSavepath()
         if args.load:
             self.loadExistingData()
+
 
     def initializeDataObjects(self):
         self.threaddata = ThreadData()
