@@ -14,20 +14,14 @@ class Scraper:
     def __init__(self, args):
         """Parse the arguments"""
         self.exectime = time.time()
-        self.interval = args.checkpoint
-        self.checkpoint = args.checkpoint
         self.minimum = args.minimum 
-        if self.minimum < self.checkpoint:  # Ensure that minimum is greater than checkpoint
-            print(
-                f"The minimum number of records ({self.minimum}), has to larger than checkpoint ({self.checkpoint})")
-            sys.exit()
         self.initializeDataObjects()
         # Initializing the praw reddit object and calling it.
         self.reddit = praw.Reddit()
         self.subreddit = self.reddit.subreddit(args.subreddit).top(limit=None)
         # Default save path of the data.
-        self.savepath = "../../data/raw/"
-        if args.savepath != "../../data/raw/":
+        self.savepath = "../data/raw/"
+        if args.savepath != "../data/raw/":
             self.savepath = args.savepath
             self.setDifferentSavepath()
         if args.load:
@@ -91,17 +85,13 @@ class Scraper:
 
     def saveOrExitConditions(self):
         numOfSamples = self.commentdata.getLength()
-        if (numOfSamples < self.checkpoint):
-            pass
-        else:
-            self.checkSaveConditions(numOfSamples)
+        self.checkSaveConditions(numOfSamples)
         self.checkExitConditions(numOfSamples)
 
     def checkSaveConditions(self, numOfSamples):
         exectime = self.getElaspedTime()
         print(numOfSamples, " ", exectime)
         self.saveAllData()
-        self.checkpoint += self.interval
 
     def saveAllData(self):
         self.authordata.saveData()
@@ -142,7 +132,6 @@ class Scraper:
 def build_parser():
     """Parser to grab and store command line arguments"""
     MINIMUM = 200000
-    CHECKPOINT = 10000
     SAVEPATH = "../../data/raw/"
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -150,8 +139,6 @@ def build_parser():
     parser.add_argument("-m", "--minimum", 
     help="Specify the minimum number of data records to collect. If load file option is used, then minimum will include comment length from loaded file.",
                         type=int, default=MINIMUM)
-    parser.add_argument("-c", "--checkpoint",
-                        help="Save the file every c comments", type=int, default=CHECKPOINT)
     parser.add_argument("-s", "--savepath",
                         help="Save/load folder", type=str, default=SAVEPATH)
     parser.add_argument("-l", "--load",
