@@ -19,6 +19,15 @@ class Scraper:
         self.savepath = "../../data/raw/"
         if args:
             self.parseArgs(args)
+        else:
+            self.subreddit = subreddit
+            self.minimum = minimum
+            if savepath != "../../data/raw/":
+                self.savepath = savepath
+                self.setDifferentSavepath()
+            if loadpath:
+                self.loadpath = loadpath
+                self.loadExistingData()
         
     def parseArgs(self, args):
         self.minimum = args.minimum
