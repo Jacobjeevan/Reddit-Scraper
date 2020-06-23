@@ -18,14 +18,32 @@ This is a Python Scraper script built on top of PRAW script. This script was use
 - Install the dependencies (pip install -r requirements.txt)
 - Modify the default praw.ini file (Client ID, secret key, reddit username and password associated with the app)
 
-## Step 3: Run the Script
-
-> Python Scraper.py -c CHECKPOINT -m MINIMUM
-
-**CHECKPOINT**: Use checkpoint to decide save points (Ex: Save records every 10k records. Default: 10k)
-
-**MINIMUM**: Minimum number of records to collect before quitting the script. Default: 200k).
+## Step 3: Run the Script 
 
 
+### Commandline
 
+    Python script/Scraper.py SUBREDDIT -m MINIMUM -s /path/to/save_location -l
+
+    SUBREDDIT: Subreddit to scrape
+
+    -m: Minimum number of records to collect before quitting the script (required. Ex: 10000)
+
+    -s: path to your save location (if load option is used, location of the folder of your save files)
+
+    -l: Load flag to continue scraping from earlier (if used, save location is required)
+
+Example usage:
+
+    Python script/Scraper.py Gaming -m 10000 -s /data/raw
+
+
+### GUI
+
+You are also free to run electron package (More instructions coming soon, along with a fully packaged version of the GUI).
+
+If you want to try the electron app:
+
+- Make sure to download electron and node.js
+- Run using npm start .
 
