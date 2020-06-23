@@ -80,13 +80,11 @@ class Scraper:
         return False
 
     def checkIfAuthorIsSuspended(self, comment):
-        IsSuspended = None
         try:
-            IsSuspended = comment.author.is_suspended
+            _ = comment.author.is_suspended
+            return True
         except AttributeError:
             pass
-        if (IsSuspended):
-            return True
         return False
 
     def checkSaveConditions(self, numOfSamples):
