@@ -83,7 +83,7 @@ class Scraper:
         IsSuspended = None
         try:
             IsSuspended = comment.author.is_suspended
-        except praw.exceptions.RedditAPIException:
+        except AttributeError:
             pass
         if (IsSuspended):
             return True
