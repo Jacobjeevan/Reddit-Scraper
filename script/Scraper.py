@@ -147,9 +147,9 @@ def build_parser():
     parser.add_argument("-s", "--savepath",
                         help="Save/load folder", type=str, default=SAVEPATH)
     parser.add_argument("-l", "--load",
-                        help="Load existing samples to continue scraping", type=bool, default=False)
+                        help="Load existing samples to continue scraping", action="store_true")
     parser.add_argument("-g", "--gui",
-                        help="Call this flag when running from Javascript GUI", type=bool, default=False)
+                        help="Call this flag when running from Javascript GUI", action="store_true")
     return parser
 
 
