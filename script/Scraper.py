@@ -110,7 +110,7 @@ class Scraper:
             print(numOfSamples, " ", exectime)
         else:
             exectime = self.getElaspedTime()
-            print(f"{numOfSamples} collected so far. Elapsed Time: {exectime}")
+            print(f"{numOfSamples} collected so far. Elapsed Time: {exectime} hours")
 
     def getElaspedTime(self):
         return round(((time.time() - self.exectime) / (60*60)),3)
