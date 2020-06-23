@@ -50,6 +50,8 @@ class Scraper:
     def scrape(self):
         subreddit = self.subreddit
         numOfSamples = self.commentdata.getLength()
+        interval = 50
+        checkpoint = numOfSamples+interval
         for submission in subreddit:
             if (submission.id in self.threaddata.getIds()):
                 pass
@@ -59,8 +61,10 @@ class Scraper:
                 all_comments = submission.comments.list()
                 for comment in all_comments:
                     numOfSamples+=1
-                    if self.gui:
-                        self.printMessage([numOfSamples])
+                    if (numOfSamples==checkpoint and self.gui): 
+                        #Print numOfSamples collected with interval of 50 samples
+                        self.printMessage(numOfSamples)
+                        checkpoint+=interval
                     self.retrieveAll(comment, submission.id)
                 self.checkSaveConditions(numOfSamples)
                 self.checkExitConditions(numOfSamples)
