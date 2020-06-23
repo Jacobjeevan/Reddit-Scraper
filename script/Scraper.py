@@ -26,6 +26,7 @@ class Scraper:
             self.setDifferentSavepath()
         if args.load:
             self.loadExistingData()
+        self.gui = args.gui
 
 
     def initializeDataObjects(self):
@@ -97,7 +98,10 @@ class Scraper:
     def checkExitConditions(self):
         numOfSamples = self.commentdata.getLength()
         if (numOfSamples >= self.minimum):
-            self.exitPrompts()
+            if self.gui:
+                self.exitPromptsForGUI()
+            else:
+                self.exitPrompts()
 
     def printMessage(self):
         numOfSamples = self.commentdata.getLength()
