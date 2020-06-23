@@ -60,7 +60,7 @@ class Scraper:
                 for comment in all_comments:
                     numOfSamples+=1
                     if self.gui:
-                        self.printMessage(numOfSamples)
+                        self.printMessage([numOfSamples])
                     self.retrieveAll(comment, submission.id)
                 self.checkSaveConditions(numOfSamples)
                 self.checkExitConditions(numOfSamples)
@@ -106,17 +106,13 @@ class Scraper:
 
     def printMessage(self, numOfSamples):
         if self.gui:
-            exectime = self.getElaspedTimeGUI()
-            print([numOfSamples])
+            print(numOfSamples)
         else:
             exectime = self.getElaspedTime()
             print(f"{numOfSamples} collected so far. Elapsed Time: {exectime} hours")
 
     def getElaspedTime(self):
         return round(((time.time() - self.exectime) / (60*60)),3)
-
-    def getElaspedTimeGUI(self):
-        return time.time() - self.exectime
 
     def exitPrompts(self):
         flag = True
