@@ -127,6 +127,9 @@ class Scraper:
             else:
                 print("Wrong type of input. Please enter valid input.\n")
 
+    def exitPromptsForGUI(self):
+        print("Done")
+
 
 def build_parser():
     """Parser to grab and store command line arguments"""
@@ -141,6 +144,8 @@ def build_parser():
                         help="Save/load folder", type=str, default=SAVEPATH)
     parser.add_argument("-l", "--load",
                         help="Load existing samples to continue scraping", type=bool, default=False)
+    parser.add_argument("-g", "--gui",
+                        help="Call this flag when running from Javascript GUI", type=bool, default=False)
     return parser
 
 
