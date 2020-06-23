@@ -10,7 +10,6 @@ class ThreadData(Data):
 
     def retrieveData(self, submission):
         numComments = submission.num_comments
-        print(f"Collecting {numComments} comments")
         self.retrieveThreadAuthor(submission)
         self.data["thread_ids"].append(submission.id)
         self.data["title"].append(submission.title)
