@@ -1,0 +1,15 @@
+{
+  "name": "reddit_scraper",
+  "version": "1.0.0",
+  "description": "Reddit Scraper",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Jacob John Jeevan",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^9.0.4",
+    "python-shell": "^2.0.1"
+  }
+}
