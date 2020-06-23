@@ -57,7 +57,8 @@ class Scraper:
                 all_comments = submission.comments.list()
                 for comment in all_comments:
                     self.retrieveAll(comment, submission.id)
-                self.saveOrExitConditions()
+                self.checkSaveConditions()
+                self.checkExitConditions()
 
     def retrieveAll(self, comment, threadid):
         if (self.checkAuthorOrCommentIsDeleted(comment) or self.checkIfAuthorIsSuspended(comment)):
@@ -83,14 +84,8 @@ class Scraper:
             return True
         return False
 
-    def saveOrExitConditions(self):
-        numOfSamples = self.commentdata.getLength()
-        self.checkSaveConditions(numOfSamples)
-        self.checkExitConditions(numOfSamples)
-
-    def checkSaveConditions(self, numOfSamples):
-        exectime = self.getElaspedTime()
-        print(numOfSamples, " ", exectime)
+    def checkSaveConditions(self):
+        self.printMessage()
         self.saveAllData()
 
     def saveAllData(self):
@@ -99,11 +94,15 @@ class Scraper:
         self.gilddata.saveData()
         self.threaddata.saveData()
 
-    def checkExitConditions(self, numOfSamples):
+    def checkExitConditions(self):
+        numOfSamples = self.commentdata.getLength()
         if (numOfSamples >= self.minimum):
-            exectime = self.getElaspedTime()
-            print(numOfSamples, " ", exectime)
             self.exitPrompts()
+
+    def printMessage(self):
+        numOfSamples = self.commentdata.getLength()
+        exectime = self.getElaspedTime()
+        print(numOfSamples, " ", exectime)
 
     def getElaspedTime(self):
         return round(((time.time() - self.exectime) / (60*60)),3)
