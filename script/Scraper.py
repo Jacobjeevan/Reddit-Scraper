@@ -49,6 +49,7 @@ class Scraper:
 
     def scrape(self):
         subreddit = self.subreddit
+        numOfSamples = self.commentdata.getLength()
         for submission in subreddit:
             if (submission.id in self.threaddata.getIds()):
                 pass
@@ -56,9 +57,10 @@ class Scraper:
                 self.threaddata.retrieveData(submission)
                 submission.comments.replace_more(limit=None)
                 all_comments = submission.comments.list()
-                numOfSamples = self.commentdata.getLength()
                 for comment in all_comments:
                     numOfSamples+=1
+                    if self.gui:
+                        self.printMessage(numOfSamples)
                     self.retrieveAll(comment, submission.id)
                 self.checkSaveConditions(numOfSamples)
                 self.checkExitConditions(numOfSamples)
