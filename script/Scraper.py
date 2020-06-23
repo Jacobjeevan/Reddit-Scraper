@@ -108,10 +108,10 @@ class Scraper:
         if self.gui:
             print(numOfSamples)
         else:
-            exectime = self.getElaspedTime()
+            exectime = self.getElapsedTime()
             print(f"{numOfSamples} collected so far. Elapsed Time: {exectime} hours")
 
-    def getElaspedTime(self):
+    def getElapsedTime(self):
         return round(((time.time() - self.exectime) / (60*60)),3)
 
     def exitPrompts(self):
