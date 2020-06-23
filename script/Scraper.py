@@ -140,6 +140,7 @@ class Scraper:
 
     def exitPromptsForGUI(self):
         print("Done")
+        sys.exit()
 
 
 def build_parser():
