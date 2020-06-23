@@ -56,10 +56,12 @@ class Scraper:
                 self.threaddata.retrieveData(submission)
                 submission.comments.replace_more(limit=None)
                 all_comments = submission.comments.list()
+                numOfSamples = self.commentdata.getLength()
                 for comment in all_comments:
+                    numOfSamples+=1
                     self.retrieveAll(comment, submission.id)
-                self.checkSaveConditions()
-                self.checkExitConditions()
+                self.checkSaveConditions(numOfSamples)
+                self.checkExitConditions(numOfSamples)
 
     def retrieveAll(self, comment, threadid):
         if (self.checkAuthorOrCommentIsDeleted(comment) or self.checkIfAuthorIsSuspended(comment)):
@@ -85,8 +87,8 @@ class Scraper:
             return True
         return False
 
-    def checkSaveConditions(self):
-        self.printMessage()
+    def checkSaveConditions(self, numOfSamples):
+        self.printMessage(numOfSamples)
         self.saveAllData()
 
     def saveAllData(self):
@@ -95,16 +97,14 @@ class Scraper:
         self.gilddata.saveData()
         self.threaddata.saveData()
 
-    def checkExitConditions(self):
-        numOfSamples = self.commentdata.getLength()
+    def checkExitConditions(self, numOfSamples):
         if (numOfSamples >= self.minimum):
             if self.gui:
                 self.exitPromptsForGUI()
             else:
                 self.exitPrompts()
 
-    def printMessage(self):
-        numOfSamples = self.commentdata.getLength()
+    def printMessage(self, numOfSamples):
         exectime = self.getElaspedTime()
         print(numOfSamples, " ", exectime)
 
