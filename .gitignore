@@ -1,0 +1,7 @@
+node_modules/
+__pycache__/
+praw.ini
+Pipfile
+Pipfile.lock
+data/
+package-lock.json
