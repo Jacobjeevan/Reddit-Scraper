@@ -26,6 +26,10 @@ button#submitbtn {
     margin-top: 50px;
 }
 
+button#settings {
+    margin-top: 10px;
+}
+
 button#quit {
     visibility: hidden;
     float: right;
@@ -36,4 +40,8 @@ button#quit {
     float: center;
     text-align: center;
     margin-top: 10px;
+}
+
+#message {
+    margin-top: 15px;
 }

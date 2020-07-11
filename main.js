@@ -9,6 +9,7 @@ let mainWindow;
 app.on('ready', function () {
     mainWindow = new BrowserWindow({
         width: 600,
+        height: 630,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true
