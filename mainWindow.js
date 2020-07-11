@@ -141,7 +141,7 @@ function handleElapsedTime() {
 function spawnChild(argsArray, minimumComments) {
     subprocess = run();
 
-    const closeApp = document.getElementById('quitbtn');
+    const closeApp = document.getElementById('quit');
     closeApp.textContent = "Quit Scraping"
     closeApp.style.visibility = "visible"
     closeApp.addEventListener('click', () => {
@@ -171,8 +171,8 @@ function spawnChild(argsArray, minimumComments) {
 function handleExit() {
     handleProgressBarWhenComplete()
     disableSaveChooser()
-    document.getElementById("quitbtn").style.visibility = "visible"
-    const closeApp = document.getElementById('quitbtn');
+    document.getElementById("quit").style.visibility = "visible"
+    const closeApp = document.getElementById('quit');
     closeApp.addEventListener('click', () => {
         ipcRenderer.send('close:app')
     });

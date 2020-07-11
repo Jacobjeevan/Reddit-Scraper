@@ -22,14 +22,14 @@ label[for=saveChooser] {
     margin-top: 10px;
 }
 
-#submitbtn {
-    margin-top: 60px;
+button#submitbtn {
+    margin-top: 50px;
 }
 
-#quitbtn {
+button#quit {
     visibility: hidden;
     float: right;
-    margin-top: -30px;
+    margin-top: -40px;
 }
 
 #ElapsedTime {
