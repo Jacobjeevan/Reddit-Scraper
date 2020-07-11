@@ -41,3 +41,7 @@ button#quit {
     text-align: center;
     margin-top: 10px;
 }
+
+#message {
+    margin-top: 15px;
+}

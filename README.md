@@ -12,11 +12,24 @@ This is a Python Scraper script built on top of PRAW script. This script was use
 
 - Login to your reddit account (or create one)
 - Navigate to reddit.com/prefs/apps
+
+![Reddit Developer](https://raw.githubusercontent.com/Jacobjeevan/Reddit-Scraper/master/media/1.png)
+
 - Click on create another app
+
+![Create Reddit App](https://raw.githubusercontent.com/Jacobjeevan/Reddit-Scraper/master/media/2.png)
+
 - Give it a name, description and other details. You can use "http://localhost:8080" for the url. Use the "script" option.
+
+![Reddit App Options](https://raw.githubusercontent.com/Jacobjeevan/Reddit-Scraper/master/media/3.png)
+
 - Grab the secret key and Client ID for later use
+
+![Reddit App Secret Key](https://raw.githubusercontent.com/Jacobjeevan/Reddit-Scraper/master/media/4.png)
+
 - Install the dependencies (pip install -r requirements.txt)
-- Modify the default praw.ini file (Client ID, secret key, reddit username and password associated with the app)
+- If you running the script from commandline, create a PRAW file using praw-template.ini file (Client ID, secret key, reddit username and password associated with the app). If running from GUI, you provide the details in the
+settings dialog and it will automatically create the relevant file.
 
 ## Step 3: Run the Script 
 
