@@ -1,4 +1,4 @@
-fs = require('fs');
+const fs = require('fs');
 
 const form = document.querySelector("form")
 form.addEventListener('submit', submitForm);

@@ -1,58 +1,77 @@
 const path = require('path')
 const url = require('url')
+const fs = require('fs');
 const { dialog, BrowserWindow } = require('electron').remote
 const { ipcRenderer } = require('electron');
 const { spawn } = require('child_process')
 let loadExistingFile = false;
 let savepath = null
 
+
+checkPrawExists();
+
+function checkPrawExists() {
+    let message = document.getElementById('message');
+    try {
+        exists = fs.existsSync('praw.ini');
+        if (!exists) {
+            message.textContent = 'praw.ini file not found. Please enter relevant details in the settings dialog.';
+        }
+        else {
+            message.textContent = '';
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const formSwitch = document.querySelector("input[name=checkbox]");
 formSwitch.addEventListener('change', function () {
-    disableSubmit()
+    disableSubmit();
     if (this.checked) {
         document.getElementById("saveChooser").textContent = "Select file";
-        document.querySelector("label[for=saveChooser]").textContent = "No file chosen"
+        document.querySelector("label[for=saveChooser]").textContent = "No file chosen";
         loadExistingFile = true;
 
     }
     else {
         document.getElementById("saveChooser").textContent = "Select directory";
-        document.querySelector("label[for=saveChooser]").textContent = "No folder chosen"
+        document.querySelector("label[for=saveChooser]").textContent = "No folder chosen";
         loadExistingFile = false;
     }
 });
 
-let saveChooser = document.getElementById("saveChooser")
-saveChooser.addEventListener('click', saveDialog)
+let saveChooser = document.getElementById("saveChooser");
+saveChooser.addEventListener('click', saveDialog);
 
 
 function saveDialog() {
     if (loadExistingFile) {
-        options = ['openFile']
+        options = ['openFile'];
     }
     else {
-        options = ['openDirectory']
+        options = ['openDirectory'];
     }
     dialog.showOpenDialog({
         properties: options
     }).then(result => {
         if (!result.canceled) {
-            document.querySelector("label[for=saveChooser]").textContent = result.filePaths[0] + " selected"
-            savepath = result.filePaths[0]
-            enableSubmit()
+            document.querySelector("label[for=saveChooser]").textContent = result.filePaths[0] + " selected";
+            savepath = result.filePaths[0];
+            enableSubmit();
         }
     }).catch(err => {
-        console.log(err)
+        console.log(err);
     })
 }
 
 function enableSubmit() {
-    let submitbtn = document.getElementById('submitbtn')
+    let submitbtn = document.getElementById('submitbtn');
     submitbtn.disabled = false;
-    submitbtn.classList.remove('disabled', 'btn-danger')
-    submitbtn.classList.add('btn-success')
-    submitbtn.setAttribute('aria-disabled', false)
-    submitbtn.textContent = "Start scraping"
+    submitbtn.classList.remove('disabled', 'btn-danger');
+    submitbtn.classList.add('btn-success');
+    submitbtn.setAttribute('aria-disabled', false);
+    submitbtn.textContent = "Start scraping";
 }
 
 (function () {
@@ -71,14 +90,14 @@ function enableSubmit() {
     }, false);
 })();
 
-const form = document.querySelector("form")
+const form = document.querySelector("form");
 form.addEventListener('submit', submitForm);
 
 
 function submitForm(e) {
     if (validate()) {
-        e.preventDefault()
-        runScraper()
+        e.preventDefault();
+        runScraper();
     };
 };
 
@@ -96,27 +115,27 @@ function validate() {
 }
 
 function runScraper() {
-    disableSubmit()
-    disableSaveChooser()
+    disableSubmit();
+    disableSaveChooser();
     handleElapsedTime();
     document.getElementById('submitbtn').textContent = "Running";
-    let subreddit = document.querySelector("#subredditInput").value
-    let minimumComments = document.querySelector("#minimumCommentsInput").value
-    argsArray = ["-u", path.join(__dirname, 'script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"]
+    let subreddit = document.querySelector("#subredditInput").value;
+    let minimumComments = document.querySelector("#minimumCommentsInput").value;
+    argsArray = ["-u", path.join(__dirname, 'script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"];
     if (savepath) {
-        argsArray.push("-s", savepath)
+        argsArray.push("-s", savepath);
         if (loadExistingFile) {
-            argsArray.push("-l", 1)
+            argsArray.push("-l", 1);
         }
     }
-    spawnChild(argsArray, minimumComments)
+    spawnChild(argsArray, minimumComments);
 }
 
 function disableSubmit() {
-    let submitbtn = document.getElementById('submitbtn')
+    let submitbtn = document.getElementById('submitbtn');
     submitbtn.disabled = true;
-    submitbtn.classList.add('disabled', 'btn-danger')
-    submitbtn.setAttribute('aria-disabled', true)
+    submitbtn.classList.add('disabled', 'btn-danger');
+    submitbtn.setAttribute('aria-disabled', true);
 }
 
 function handleElapsedTime() {
@@ -134,7 +153,7 @@ function handleElapsedTime() {
         timeDiff = Math.floor(timeDiff / 24);
         var days = timeDiff;
         setTimeout(displayTime, 1000);
-        var fullmsg = `Elasped Time: ${days} day(s), ${hours} hour(s), ${minutes} minute(s), ${seconds} seconds`
+        var fullmsg = `Elasped Time: ${days} day(s), ${hours} hour(s), ${minutes} minute(s), ${seconds} seconds`;
         document.getElementById("ElapsedTime").textContent = fullmsg;
     }
 }
@@ -143,8 +162,8 @@ function spawnChild(argsArray, minimumComments) {
     subprocess = run();
 
     const closeApp = document.getElementById('quit');
-    closeApp.textContent = "Quit Scraping"
-    closeApp.style.visibility = "visible"
+    closeApp.textContent = "Quit Scraping";
+    closeApp.style.visibility = "visible";
     closeApp.addEventListener('click', () => {
         console.log(subprocess.kill());
         closeApp.textContent = "Quit Program";
@@ -163,54 +182,54 @@ function spawnChild(argsArray, minimumComments) {
     });
 
     subprocess.on('close', () => {
-        handleExit()
+        handleExit();
         console.log("Closed");
     });
 
 };
 
 function handleExit() {
-    handleProgressBarWhenComplete()
-    disableSaveChooser()
-    document.getElementById("quit").style.visibility = "visible"
+    handleProgressBarWhenComplete();
+    disableSaveChooser();
+    document.getElementById("quit").style.visibility = "visible";
     const closeApp = document.getElementById('quit');
     closeApp.addEventListener('click', () => {
-        ipcRenderer.send('close:app')
+        ipcRenderer.send('close:app');
     });
 }
 
 function handleProgressBarWhenComplete() {
-    let progressbar = document.getElementById("progress-bar")
-    progressbar.classList.remove("bg-info")
-    progressbar.classList.add("bg-success")
-    progressbar.textContent = "Done"
+    let progressbar = document.getElementById("progress-bar");
+    progressbar.classList.remove("bg-info");
+    progressbar.classList.add("bg-success");
+    progressbar.textContent = "Done";
 }
 
 function disableSaveChooser() {
-    let saveChooser = document.getElementById("saveChooser")
-    saveChooser.disabled = true
-    saveChooser.classList.add('disabled')
-    saveChooser.setAttribute('aria-disabled', true)
+    let saveChooser = document.getElementById("saveChooser");
+    saveChooser.disabled = true;
+    saveChooser.classList.add('disabled');
+    saveChooser.setAttribute('aria-disabled', true);
 }
 
 function handleScraperOutput(data, minimumComments) {
     if (data != "Done") {
-        console.log(data)
-        samplesCollected = Number(data)
-        var progress = samplesCollected / minimumComments * 100
-        handleProgressBar(progress)
+        console.log(data);
+        samplesCollected = Number(data);
+        var progress = samplesCollected / minimumComments * 100;
+        handleProgressBar(progress);
     }
 }
 
 function handleProgressBar(progress) {
-    progress = progress.toFixed(1)
-    let progressbar = document.getElementById("progress-bar")
-    progressbar.setAttribute('aria-valuenow', progress)
-    progressbar.setAttribute('style', `width: ${progress}%`)
-    progressbar.textContent = progress + '%'
+    progress = progress.toFixed(1);
+    let progressbar = document.getElementById("progress-bar");
+    progressbar.setAttribute('aria-valuenow', progress);
+    progressbar.setAttribute('style', `width: ${progress}%`);
+    progressbar.textContent = progress + '%';
     if (progress >= 100.0) {
-        progressbar.classList.add("bg-info")
-        progressbar.textContent = "Almost Done"
+        progressbar.classList.add("bg-info");
+        progressbar.textContent = "Almost Done";
     }
 }
 
@@ -232,4 +251,6 @@ settingbtn.addEventListener("click", event => {
         slashes: true
     }));
     settingsWindow.show();
+
+    settingsWindow.once('close', checkPrawExists);
 });
