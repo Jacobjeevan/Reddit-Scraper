@@ -1,5 +1,6 @@
 const path = require('path')
-const { dialog } = require('electron').remote
+const url = require('url')
+const { dialog, BrowserWindow } = require('electron').remote
 const { ipcRenderer } = require('electron');
 const { spawn } = require('child_process')
 let loadExistingFile = false;
@@ -101,7 +102,7 @@ function runScraper() {
     document.getElementById('submitbtn').textContent = "Running";
     let subreddit = document.querySelector("#subredditInput").value
     let minimumComments = document.querySelector("#minimumCommentsInput").value
-    argsArray = ["-u", path.join(__dirname, 'script','Scraper.py'), subreddit, "-m", minimumComments, "-g"]
+    argsArray = ["-u", path.join(__dirname, 'script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"]
     if (savepath) {
         argsArray.push("-s", savepath)
         if (loadExistingFile) {
@@ -212,3 +213,23 @@ function handleProgressBar(progress) {
         progressbar.textContent = "Almost Done"
     }
 }
+
+const settingbtn = document.getElementById("settings");
+settingbtn.addEventListener("click", event => {
+    let settingsWindow = new BrowserWindow({
+        width: 600,
+        height: 500,
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true,
+            resizable: true,
+        }
+    });
+
+    settingsWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'settingsWindow.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+    settingsWindow.show();
+});
