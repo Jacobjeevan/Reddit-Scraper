@@ -26,6 +26,10 @@ button#submitbtn {
     margin-top: 50px;
 }
 
+button#settings {
+    margin-top: 10px;
+}
+
 button#quit {
     visibility: hidden;
     float: right;
