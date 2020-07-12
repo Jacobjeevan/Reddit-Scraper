@@ -61,13 +61,13 @@ class Scraper:
                 all_comments = submission.comments.list()
                 for comment in all_comments:
                     numOfSamples+=1
+                    self.retrieveAll(comment, submission.id)
                     if (numOfSamples==checkpoint and self.gui): 
                         #Print numOfSamples collected with interval of 50 samples
                         self.printMessage(numOfSamples)
                         checkpoint+=interval
-                    self.retrieveAll(comment, submission.id)
-                self.checkSaveConditions(numOfSamples)
-                self.checkExitConditions(numOfSamples)
+                        self.checkSaveConditions(numOfSamples)
+                        self.checkExitConditions(numOfSamples)
 
     def retrieveAll(self, comment, threadid):
         if (self.checkAuthorOrCommentIsDeleted(comment) or self.checkIfAuthorIsSuspended(comment)):
