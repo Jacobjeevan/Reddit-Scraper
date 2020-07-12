@@ -138,6 +138,8 @@ function disableSubmit() {
     submitbtn.setAttribute('aria-disabled', true);
 }
 
+let timeOnloop;
+
 function handleElapsedTime() {
     var startTime = new Date();
     displayTime()
@@ -152,7 +154,7 @@ function handleElapsedTime() {
         var hours = Math.round(timeDiff % 24);
         timeDiff = Math.floor(timeDiff / 24);
         var days = timeDiff;
-        setTimeout(displayTime, 1000);
+        timeOnloop = setTimeout(displayTime, 1000);
         var fullmsg = `Elasped Time: ${days} day(s), ${hours} hour(s), ${minutes} minute(s), ${seconds} seconds`;
         document.getElementById("ElapsedTime").textContent = fullmsg;
     }
@@ -191,6 +193,7 @@ function spawnChild(argsArray, minimumComments) {
 function handleExit() {
     handleProgressBarWhenComplete();
     disableSaveChooser();
+    clearTimeout(timeOnloop);
     document.getElementById("quit").style.visibility = "visible";
     const closeApp = document.getElementById('quit');
     closeApp.addEventListener('click', () => {
