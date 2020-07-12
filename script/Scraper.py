@@ -15,7 +15,6 @@ class Scraper:
         self.initializeDataObjects()
         self.reddit = praw.Reddit()
         # Default save path of the data.
-        self.savepath = "../data/raw/"
         self.parseArgs(args)
         
     def parseArgs(self, args):
@@ -164,8 +163,7 @@ def build_parser():
 def main():
     parser = build_parser()
     args = parser.parse_args()
-    print(args.savepath)
-    #Scraper(args).scrape()
+    Scraper(args).scrape()
 
 if __name__ == "__main__":
     main()
