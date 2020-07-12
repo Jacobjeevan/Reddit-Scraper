@@ -15,12 +15,13 @@ class Scraper:
         self.initializeDataObjects()
         self.reddit = praw.Reddit()
         # Default save path of the data.
+        self.savepath = "../data/raw/"
         self.parseArgs(args)
         
     def parseArgs(self, args):
         self.minimum = args.minimum
         self.subreddit = self.reddit.subreddit(args.subreddit).top(limit=None)
-        if args.savepath != "../data/raw/":
+        if self.savepath != args.savepath:
             self.savepath = args.savepath
             self.setDifferentSavepath()
         if args.load:

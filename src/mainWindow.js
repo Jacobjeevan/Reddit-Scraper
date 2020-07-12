@@ -123,7 +123,7 @@ function runScraper() {
     let minimumComments = document.querySelector("#minimumCommentsInput").value;
     argsArray = ["-u", path.join(__dirname, '..','script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"];
     if (savepath) {
-        argsArray.push("-s", savepath);
+        argsArray.push("-s", savepath + "/");
         if (loadExistingFile) {
             argsArray.push("-l", 1);
         }
