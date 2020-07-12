@@ -164,7 +164,8 @@ def build_parser():
 def main():
     parser = build_parser()
     args = parser.parse_args()
-    Scraper(args).scrape()
+    print(args.savepath)
+    #Scraper(args).scrape()
 
 if __name__ == "__main__":
     main()

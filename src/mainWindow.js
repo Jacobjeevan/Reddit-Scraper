@@ -205,7 +205,9 @@ function handleProgressBarWhenComplete() {
     let progressbar = document.getElementById("progress-bar");
     progressbar.classList.remove("bg-info");
     progressbar.classList.add("bg-success");
-    progressbar.textContent = '100%';
+    progressbar.setAttribute('aria-valuenow', '100');
+    progressbar.setAttribute('style', `width: 100%`);
+    progressbar.textContent = 'Done';
 }
 
 function disableSaveChooser() {
