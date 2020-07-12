@@ -17,7 +17,7 @@ app.on('ready', function () {
     });
     mainWindow.resizable = false;
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'mainWindow.html'),
+        pathname: path.join(__dirname, 'src/mainWindow.html'),
         protocol: 'file:',
         slashes: true
     }));

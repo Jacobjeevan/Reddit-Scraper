@@ -13,7 +13,7 @@ checkPrawExists();
 function checkPrawExists() {
     let message = document.getElementById('message');
     try {
-        exists = fs.existsSync('praw.ini');
+        exists = fs.existsSync('src/praw.ini');
         if (!exists) {
             message.textContent = 'praw.ini file not found. Please enter relevant details in the settings dialog.';
         }
@@ -121,9 +121,9 @@ function runScraper() {
     document.getElementById('submitbtn').textContent = "Running";
     let subreddit = document.querySelector("#subredditInput").value;
     let minimumComments = document.querySelector("#minimumCommentsInput").value;
-    argsArray = ["-u", path.join(__dirname, 'script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"];
+    argsArray = ["-u", path.join(__dirname, '..','script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"];
     if (savepath) {
-        argsArray.push("-s", savepath);
+        argsArray.push("-s", savepath + "/");
         if (loadExistingFile) {
             argsArray.push("-l", 1);
         }
@@ -137,6 +137,8 @@ function disableSubmit() {
     submitbtn.classList.add('disabled', 'btn-danger');
     submitbtn.setAttribute('aria-disabled', true);
 }
+
+let timeOnloop;
 
 function handleElapsedTime() {
     var startTime = new Date();
@@ -152,7 +154,7 @@ function handleElapsedTime() {
         var hours = Math.round(timeDiff % 24);
         timeDiff = Math.floor(timeDiff / 24);
         var days = timeDiff;
-        setTimeout(displayTime, 1000);
+        timeOnloop = setTimeout(displayTime, 1000);
         var fullmsg = `Elasped Time: ${days} day(s), ${hours} hour(s), ${minutes} minute(s), ${seconds} seconds`;
         document.getElementById("ElapsedTime").textContent = fullmsg;
     }
@@ -191,6 +193,7 @@ function spawnChild(argsArray, minimumComments) {
 function handleExit() {
     handleProgressBarWhenComplete();
     disableSaveChooser();
+    clearTimeout(timeOnloop);
     document.getElementById("quit").style.visibility = "visible";
     const closeApp = document.getElementById('quit');
     closeApp.addEventListener('click', () => {
@@ -202,7 +205,9 @@ function handleProgressBarWhenComplete() {
     let progressbar = document.getElementById("progress-bar");
     progressbar.classList.remove("bg-info");
     progressbar.classList.add("bg-success");
-    progressbar.textContent = "Done";
+    progressbar.setAttribute('aria-valuenow', '100');
+    progressbar.setAttribute('style', `width: 100%`);
+    progressbar.textContent = 'Done';
 }
 
 function disableSaveChooser() {

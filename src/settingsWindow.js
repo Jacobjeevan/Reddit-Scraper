@@ -10,6 +10,8 @@ function submitForm(e) {
     let useragent = document.querySelector("#userAgentInput").value
     let username = document.querySelector("#usernameInput").value
     let password = document.querySelector("#passwordInput").value
+
+    fs.appendFileSync('src/praw.ini', '[DEFAULT]\r\n');
     writeToFile('client_id', clientID);
     writeToFile('client_secret', clientSecret);
     writeToFile('user_agent', useragent);
@@ -19,7 +21,7 @@ function submitForm(e) {
 
 function writeToFile(name, data) {
     try {
-        fs.appendFileSync('praw.ini', `${name}=${data}\n`);
+        fs.appendFileSync('src/praw.ini', `${name}=${data}\r\n`);
     } catch (error) {
         console.log(error);
     }   
