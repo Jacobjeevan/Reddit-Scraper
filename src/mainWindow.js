@@ -13,7 +13,7 @@ checkPrawExists();
 function checkPrawExists() {
     let message = document.getElementById('message');
     try {
-        exists = fs.existsSync('praw.ini');
+        exists = fs.existsSync('src/praw.ini');
         if (!exists) {
             message.textContent = 'praw.ini file not found. Please enter relevant details in the settings dialog.';
         }
@@ -121,7 +121,7 @@ function runScraper() {
     document.getElementById('submitbtn').textContent = "Running";
     let subreddit = document.querySelector("#subredditInput").value;
     let minimumComments = document.querySelector("#minimumCommentsInput").value;
-    argsArray = ["-u", path.join(__dirname, 'script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"];
+    argsArray = ["-u", path.join(__dirname, '..','script', 'Scraper.py'), subreddit, "-m", minimumComments, "-g"];
     if (savepath) {
         argsArray.push("-s", savepath);
         if (loadExistingFile) {
