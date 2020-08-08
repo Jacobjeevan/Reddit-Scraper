@@ -9,7 +9,9 @@
   "author": "Jacob John Jeevan",
   "license": "MIT",
   "dependencies": {
-    "electron": "^9.0.4",
-    "python-shell": "^2.0.1"
+    "electron": "^9.0.4"
+  },
+  "devDependencies": {
+    "electron-packager": "^15.0.0"
   }
 }
