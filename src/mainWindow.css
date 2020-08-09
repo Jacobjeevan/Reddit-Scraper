@@ -1,47 +1,45 @@
-body
-{
-    margin:30px;
-    font-family: 'Fira Sans', sans-serif;
-    font-size: small;
+body {
+  margin: 30px;
+  font-family: "Fira Sans", sans-serif;
+  font-size: small;
+  display: flex;
+  flex-direction: column;
 }
 
 .error {
-    width  : 100%;
-    padding: 0;
-  
-    font-size: 80%;
-    color: white;
-    background-color: #900;
-    border-radius: 0 0 5px 5px;
-  
-    box-sizing: border-box;
-  }
+  width: 100%;
+  padding: 0;
 
-label[for=saveChooser] {
-    font-size: small;
-    margin-top: 10px;
+  font-size: 80%;
+  color: white;
+  background-color: #900;
+  border-radius: 0 0 5px 5px;
+
+  box-sizing: border-box;
+}
+
+label[for="saveChooser"] {
+  font-size: small;
+  margin-top: 10px;
 }
 
 button#submitbtn {
-    margin-top: 50px;
-}
-
-button#settings {
-    margin-top: 10px;
+  margin-top: 50px;
 }
 
 button#quit {
-    visibility: hidden;
-    float: right;
-    margin-top: -40px;
+  visibility: hidden;
+  margin-top: 30px;
+  width: 25%;
 }
 
 #ElapsedTime {
-    float: center;
-    text-align: center;
-    margin-top: 10px;
+  float: center;
+  text-align: center;
+  margin-top: 10px;
 }
 
 #message {
-    margin-top: 15px;
+  margin-top: 15px;
+  order: 99;
 }
