@@ -1,6 +1,7 @@
 from Data import Data
 import praw
 
+
 class ThreadData(Data):
 
     def __init__(self):
@@ -10,14 +11,17 @@ class ThreadData(Data):
 
     def retrieveData(self, submission):
         numComments = submission.num_comments
-        self.retrieveThreadAuthor(submission)
-        self.data["thread_ids"].append(submission.id)
-        self.data["title"].append(submission.title)
-        self.data["upvotes"].append(submission.ups)
-        self.data["edited"].append(submission.edited)
-        self.data["gildings"].append(submission.gildings)
-        self.data["created_utc"].append(submission.created_utc)
-        self.data["num_comments"].append(numComments)
+        if (submission.id in self.getIds()):
+            pass
+        else:
+            self.retrieveThreadAuthor(submission)
+            self.data["thread_ids"].append(submission.id)
+            self.data["title"].append(submission.title)
+            self.data["upvotes"].append(submission.ups)
+            self.data["edited"].append(submission.edited)
+            self.data["gildings"].append(submission.gildings)
+            self.data["created_utc"].append(submission.created_utc)
+            self.data["num_comments"].append(numComments)
 
     def retrieveThreadAuthor(self, submission):
         try:
@@ -35,6 +39,6 @@ class ThreadData(Data):
 
     def saveData(self):
         super().saveData("ThreadData.json")
-    
+
     def loadData(self):
         self.data = super().loadData("ThreadData.json")

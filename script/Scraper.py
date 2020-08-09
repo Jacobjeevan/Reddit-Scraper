@@ -63,21 +63,18 @@ class Scraper:
         interval = 50
         checkpoint = numOfSamples+interval
         for submission in subreddit:
-            if (submission.id in self.threaddata.getIds()):
-                pass
-            else:
-                self.threaddata.retrieveData(submission)
-                submission.comments.replace_more(limit=None)
-                all_comments = submission.comments.list()
-                for comment in all_comments:
-                    numOfSamples += 1
-                    self.retrieveAll(comment, submission.id)
-                    if (numOfSamples == checkpoint and self.gui):
-                        # Print numOfSamples collected with interval of 50 samples
-                        self.printMessage(numOfSamples)
-                        checkpoint += interval
-                        self.checkSaveConditions(numOfSamples)
-                        self.checkExitConditions(numOfSamples)
+            self.threaddata.retrieveData(submission)
+            submission.comments.replace_more(limit=None)
+            all_comments = submission.comments.list()
+            for comment in all_comments:
+                numOfSamples += 1
+                self.retrieveAll(comment, submission.id)
+                if (numOfSamples == checkpoint and self.gui):
+                    # Print numOfSamples collected with interval of 50 samples
+                    self.printMessage(numOfSamples)
+                    checkpoint += interval
+                    self.checkSaveConditions(numOfSamples)
+                    self.checkExitConditions(numOfSamples)
 
     def retrieveAll(self, comment, threadid):
         if (self.checkAuthorOrCommentIsDeleted(comment) or self.checkIfAuthorIsSuspended(comment)):
