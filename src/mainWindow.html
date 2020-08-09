@@ -6,12 +6,15 @@
     'unsafe-hashes'
     https://stackpath.bootstrapcdn.com 
     https://fonts.googleapis.com
-    'sha256-NjYDAvf3Yswi9GqXn8q5mE3okYa3Q4PuzJ0DkAhe4yQ='; 
+    'sha256-NjYDAvf3Yswi9GqXn8q5mE3okYa3Q4PuzJ0DkAhe4yQ='
+    'sha256-0bPMNLXU2SGBbWjDn1PgWN3q4xamD5k+AgtMOcV1x7s='
+    'sha256-IOWYPccv4+GIAWz50PQ4hgBzwty+G8ckj9XrN5jdx6g='; 
     script-src 
     'self'
     https://code.jquery.com
     https://cdn.jsdelivr.net
     https://stackpath.bootstrapcdn.com
+    'sha256-IOWYPccv4+GIAWz50PQ4hgBzwty+G8ckj9XrN5jdx6g='
     ">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -43,14 +46,15 @@
         <div class="form-group">
             <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="customSwitch1" name="checkbox">
-                <label class="custom-control-label" for="customSwitch1">Load Existing File (CommentsData.json)</label>
+                <label class="custom-control-label" for="customSwitch1">Load folder (containing files; ex:
+                    CommentData.json)</label>
             </div>
         </div>
 
         <label for="saveChooser">Pick directory to enable scraping</label>
 
         <div class="form-group">
-            <button type="button" class="btn btn-primary btn-sm" id="saveChooser">Select directory</button>
+            <button type="button" class="btn btn-primary btn-sm" id="saveChooser">Select folder</button>
         </div>
 
         <div class="progress">

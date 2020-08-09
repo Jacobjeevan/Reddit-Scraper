@@ -39,15 +39,11 @@ ipcRenderer.on("check:praw", () => {
 const formSwitch = document.querySelector("input[name=checkbox]");
 formSwitch.addEventListener("change", function () {
   disableSubmit();
+  document.querySelector("label[for=saveChooser]").textContent =
+    "No folder chosen";
   if (this.checked) {
-    document.getElementById("saveChooser").textContent = "Select file";
-    document.querySelector("label[for=saveChooser]").textContent =
-      "No file chosen";
     loadExistingFile = true;
   } else {
-    document.getElementById("saveChooser").textContent = "Select directory";
-    document.querySelector("label[for=saveChooser]").textContent =
-      "No folder chosen";
     loadExistingFile = false;
   }
 });
@@ -57,7 +53,7 @@ saveChooser.addEventListener("click", saveDialog);
 
 function saveDialog() {
   if (loadExistingFile) {
-    options = ["openFile"];
+    options = ["openDirectory"];
   } else {
     options = ["openDirectory"];
   }
@@ -154,7 +150,7 @@ function runScraper() {
   if (savepath) {
     argsArray.push("-s", savepath + "/");
     if (loadExistingFile) {
-      argsArray.push("-l", 1);
+      argsArray.push("-l");
     }
   }
   spawnChild(argsArray, minimumComments);

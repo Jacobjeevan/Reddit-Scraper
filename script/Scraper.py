@@ -3,31 +3,41 @@ import sys
 import praw
 import time
 import argparse
+import json
 from CommentData import CommentData
 from AuthorData import AuthorData
 from GildData import GildData
 from ThreadData import ThreadData
+
 
 class Scraper:
 
     def __init__(self, args):
         self.exectime = time.time()
         self.initializeDataObjects()
-        self.reddit = praw.Reddit()
         # Default save path of the data.
-        self.savepath = "../data/raw/"
+        self.savepath = "data/raw/"
         self.parseArgs(args)
-        
+
     def parseArgs(self, args):
         self.minimum = args.minimum
-        self.subreddit = self.reddit.subreddit(args.subreddit).top(limit=None)
         if self.savepath != args.savepath:
             self.savepath = args.savepath
             self.setDifferentSavepath()
         if args.load:
             self.loadExistingData()
         self.gui = args.gui
-
+        if (self.gui):
+            with open("src/prawConfig.json", "r") as jsonfile:
+                data = json.load(jsonfile)
+            self.reddit = praw.Reddit(client_id=data["clientID"],
+                                      client_secret=data["clientSecret"],
+                                      user_agent=data["useragent"],
+                                      username=data["username"],
+                                      password=data["password"])
+        else:
+            self.reddit = praw.Reddit()
+        self.subreddit = self.reddit.subreddit(args.subreddit).top(limit=None)
 
     def initializeDataObjects(self):
         self.threaddata = ThreadData()
@@ -60,12 +70,12 @@ class Scraper:
                 submission.comments.replace_more(limit=None)
                 all_comments = submission.comments.list()
                 for comment in all_comments:
-                    numOfSamples+=1
+                    numOfSamples += 1
                     self.retrieveAll(comment, submission.id)
-                    if (numOfSamples==checkpoint and self.gui): 
-                        #Print numOfSamples collected with interval of 50 samples
+                    if (numOfSamples == checkpoint and self.gui):
+                        # Print numOfSamples collected with interval of 50 samples
                         self.printMessage(numOfSamples)
-                        checkpoint+=interval
+                        checkpoint += interval
                         self.checkSaveConditions(numOfSamples)
                         self.checkExitConditions(numOfSamples)
 
@@ -116,7 +126,7 @@ class Scraper:
             print(f"{numOfSamples} collected so far. Elapsed Time: {exectime} hours")
 
     def getElapsedTime(self):
-        return round(((time.time() - self.exectime) / (60*60)),3)
+        return round(((time.time() - self.exectime) / (60*60)), 3)
 
     def exitPrompts(self):
         flag = True
@@ -148,9 +158,10 @@ def build_parser():
     MINIMUM = 200000
     SAVEPATH = "../data/raw/"
     parser = argparse.ArgumentParser()
-    parser.add_argument("subreddit", help="Specify the subreddit to scrape from")
-    parser.add_argument("-m", "--minimum", 
-    help="Specify the minimum number of data records to collect. If load file option is used, then minimum will include comment length from loaded file.",
+    parser.add_argument(
+        "subreddit", help="Specify the subreddit to scrape from")
+    parser.add_argument("-m", "--minimum",
+                        help="Specify the minimum number of data records to collect. If load file option is used, then minimum will include comment length from loaded file.",
                         type=int, default=MINIMUM)
     parser.add_argument("-s", "--savepath",
                         help="Save/load folder", type=str, default=SAVEPATH)
@@ -165,6 +176,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
     Scraper(args).scrape()
+
 
 if __name__ == "__main__":
     main()
