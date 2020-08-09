@@ -1,5 +1,6 @@
 from Data import Data
 
+
 class CommentData(Data):
 
     def __init__(self):
@@ -8,7 +9,7 @@ class CommentData(Data):
                      "author_ids": [], "created_utc": [], "edited": [], "thread_ids": []}
 
     def retrieveData(self, comment, threadid):
-        commentID =  comment.id
+        commentID = comment.id
         if commentID not in self.data["comment_ids"]:
             self.data["thread_ids"].append(threadid)
             self.data["comment_ids"].append(commentID)
@@ -18,6 +19,8 @@ class CommentData(Data):
             self.data["author_ids"].append(comment.author_fullname[3:])
             self.data["created_utc"].append(comment.created_utc)
             self.data["edited"].append(comment.edited)
+            return 1
+        return 0
 
     def getLength(self):
         return len(self.data["comment_ids"])

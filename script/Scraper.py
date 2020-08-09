@@ -59,29 +59,29 @@ class Scraper:
 
     def scrape(self):
         subreddit = self.subreddit
-        numOfSamples = self.commentdata.getLength()
+        self.numOfSamples = self.commentdata.getLength()
         interval = 50
-        checkpoint = numOfSamples+interval
+        checkpoint = self.numOfSamples+interval
         for submission in subreddit:
             self.threaddata.retrieveData(submission)
             submission.comments.replace_more(limit=None)
             all_comments = submission.comments.list()
             for comment in all_comments:
-                numOfSamples += 1
                 self.retrieveAll(comment, submission.id)
-                if (numOfSamples == checkpoint and self.gui):
+                if (self.numOfSamples == checkpoint and self.gui):
                     # Print numOfSamples collected with interval of 50 samples
-                    self.printMessage(numOfSamples)
+                    self.printMessage()
                     checkpoint += interval
-                    self.checkSaveConditions(numOfSamples)
-                    self.checkExitConditions(numOfSamples)
+                    self.checkSaveConditions()
+                    self.checkExitConditions()
 
     def retrieveAll(self, comment, threadid):
         if (self.checkAuthorOrCommentIsDeleted(comment) or self.checkIfAuthorIsSuspended(comment)):
             pass
         else:
             self.authordata.retrieveData(comment)
-            self.commentdata.retrieveData(comment, threadid)
+            self.numOfSamples += self.commentdata.retrieveData(
+                comment, threadid)
             if comment.gildings:
                 self.gilddata.retrieveData(comment)
 
@@ -98,8 +98,8 @@ class Scraper:
             pass
         return False
 
-    def checkSaveConditions(self, numOfSamples):
-        self.printMessage(numOfSamples)
+    def checkSaveConditions(self):
+        self.printMessage()
         self.saveAllData()
 
     def saveAllData(self):
@@ -108,19 +108,20 @@ class Scraper:
         self.gilddata.saveData()
         self.threaddata.saveData()
 
-    def checkExitConditions(self, numOfSamples):
-        if (numOfSamples >= self.minimum):
+    def checkExitConditions(self):
+        if (self.numOfSamples >= self.minimum):
             if self.gui:
                 self.exitPromptsForGUI()
             else:
                 self.exitPrompts()
 
-    def printMessage(self, numOfSamples):
+    def printMessage(self):
         if self.gui:
-            print(numOfSamples)
+            print(self.numOfSamples)
         else:
             exectime = self.getElapsedTime()
-            print(f"{numOfSamples} collected so far. Elapsed Time: {exectime} hours")
+            print(
+                f"{self.numOfSamples} collected so far. Elapsed Time: {exectime} hours")
 
     def getElapsedTime(self):
         return round(((time.time() - self.exectime) / (60*60)), 3)
