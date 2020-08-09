@@ -20,10 +20,10 @@ function setProgressBar() {
 function checkPrawExists() {
   let message = document.getElementById("message");
   try {
-    exists = fs.existsSync("src/praw.ini");
+    exists = fs.existsSync("src/prawConfig.json");
     if (!exists) {
       message.textContent =
-        "praw.ini file not found. Please enter relevant details in the settings dialog.";
+        "prawConfig file not found. Please enter relevant details in the settings dialog.";
     } else {
       message.textContent = "";
     }
