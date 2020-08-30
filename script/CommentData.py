@@ -5,13 +5,19 @@ class CommentData(Data):
 
     def __init__(self):
         super().__init__()
+        self.length = 0
+        self.clearData()
+
+    def clearData(self):
         self.data = {"comment_body": [], "ups": [], "downs": [], "comment_ids": [],
                      "author_ids": [], "created_utc": [], "edited": [], "thread_ids": []}
 
     def retrieveData(self, comment, threadid):
         commentID = comment.id
-        if commentID not in self.data["comment_ids"]:
+        if commentID not in super().getTracker():
+            self.length += 1
             self.data["thread_ids"].append(threadid)
+            super().addToTracker(commentID)
             self.data["comment_ids"].append(commentID)
             self.data["comment_body"].append(comment.body)
             self.data["ups"].append(comment.ups)
@@ -22,11 +28,9 @@ class CommentData(Data):
             return 1
         return 0
 
-    def getLength(self):
-        return len(self.data["comment_ids"])
-
     def saveData(self):
         super().saveData("CommentData.json")
+        self.clearData()
 
     def loadData(self):
         self.data = super().loadData("CommentData.json")

@@ -1,22 +1,27 @@
 from Data import Data
 
+
 class GildData(Data):
 
     def __init__(self):
         super().__init__()
-        self.data= {"comment_ids": [], "gildings": []}  
+        self.length = 0
+        self.clearData()
+
+    def clearData(self):
+        self.data = {"comment_ids": [], "gildings": []}
 
     def retrieveData(self, comment):
-        commentID =  comment.id
-        if commentID not in self.data["comment_ids"]:
-            self.data["comment_ids"].append(comment.id)
+        commentID = comment.id
+        if commentID not in super().getTracker():
+            self.length += 1
+            super().addToTracker(commentID)
+            self.data["comment_ids"].append(commentID)
             self.data["gildings"].append(comment.gildings)
-
-    def getLength(self):
-        return len(self.data["comment_ids"])
 
     def saveData(self):
         super().saveData("GildData.json")
-    
+        self.clearData()
+
     def loadData(self):
         self.data = super().loadData("GildData.json")

@@ -6,16 +6,23 @@ class ThreadData(Data):
 
     def __init__(self):
         super().__init__()
+        self.length = 0
+        self.clearData()
+
+    def clearData(self):
         self.data = {"thread_ids": [], "title": [], "author_ids": [], "upvotes": [
         ], "gildings": [], "created_utc": [], "premium": [], "num_comments": [], "edited": []}
 
     def retrieveData(self, submission):
         numComments = submission.num_comments
-        if (submission.id in self.getIds()):
+        submissionID = submission.id
+        if (submissionID in super().getTracker()):
             pass
         else:
+            self.length += 1
             self.retrieveThreadAuthor(submission)
-            self.data["thread_ids"].append(submission.id)
+            self.data["thread_ids"].append(submissionID)
+            super().addToTracker(submissionID)
             self.data["title"].append(submission.title)
             self.data["upvotes"].append(submission.ups)
             self.data["edited"].append(submission.edited)
@@ -31,14 +38,9 @@ class ThreadData(Data):
             self.data["author_ids"].append("NaN")
             self.data["premium"].append("NaN")
 
-    def getIds(self):
-        return self.data["thread_ids"]
-
-    def getLength(self):
-        return len(self.data["thread_ids"])
-
     def saveData(self):
         super().saveData("ThreadData.json")
+        self.clearData()
 
     def loadData(self):
         self.data = super().loadData("ThreadData.json")
