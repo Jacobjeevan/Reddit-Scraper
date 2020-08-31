@@ -30,13 +30,16 @@ class Data:
         filename = self.savepath + filename
         with open(filename, "r") as write_file:
             data = json.load(write_file)
+        self.length = len(data)
         return data
 
     def getData(self):
         return self.data
 
-    def addToTracker(self, id):
-        self.tracker.append(id)
+    def addToTracker(self, record):
+        self.tracker.append(record)
 
-    def getTracker(self):
-        return self.tracker
+    def IfAlreadyCollected(self, record):
+        if record in self.tracker:
+            return True
+        return False

@@ -16,22 +16,17 @@ class AuthorData(Data):
 
     def retrieveData(self, comment):
         self.comment = comment
-        if (self.checkAuthorAlreadyCollected()):
+        authorID = self.comment.author_fullname[3:]
+        if (super().IfAlreadyCollected(authorID)):
             pass
         else:
             try:
-                self.retrieve()
+                self.retrieve(authorID)
             except praw.exceptions.RedditAPIException:
                 return
 
-    def checkAuthorAlreadyCollected(self):
-        if (self.comment.author_fullname[3:] in super().getTracker()):
-            return True
-        return False
-
-    def retrieve(self):
+    def retrieve(self, authorID):
         self.length += 1
-        authorID = self.comment.author.id
         super().addToTracker(authorID)
         self.data["author_ids"].append(authorID)
         self.data["comment_karma"].append(self.comment.author.comment_karma)

@@ -6,6 +6,7 @@ class CommentData(Data):
     def __init__(self):
         super().__init__()
         self.length = 0
+        self.comment = None
         self.clearData()
 
     def clearData(self):
@@ -13,20 +14,25 @@ class CommentData(Data):
                      "author_ids": [], "created_utc": [], "edited": [], "thread_ids": []}
 
     def retrieveData(self, comment, threadid):
-        commentID = comment.id
-        if commentID not in super().getTracker():
-            self.length += 1
-            self.data["thread_ids"].append(threadid)
-            super().addToTracker(commentID)
-            self.data["comment_ids"].append(commentID)
-            self.data["comment_body"].append(comment.body)
-            self.data["ups"].append(comment.ups)
-            self.data["downs"].append(comment.downs)
-            self.data["author_ids"].append(comment.author_fullname[3:])
-            self.data["created_utc"].append(comment.created_utc)
-            self.data["edited"].append(comment.edited)
+        self.comment = comment
+        if (super().IfAlreadyCollected(comment.id)):
+            return 0
+        else:
+            self.retrieve(threadid)
             return 1
-        return 0
+
+    def retrieve(self, threadid):
+        commentID = self.comment.id
+        self.length += 1
+        self.data["thread_ids"].append(threadid)
+        super().addToTracker(commentID)
+        self.data["comment_ids"].append(commentID)
+        self.data["comment_body"].append(self.comment.body)
+        self.data["ups"].append(self.comment.ups)
+        self.data["downs"].append(self.comment.downs)
+        self.data["author_ids"].append(self.comment.author_fullname[3:])
+        self.data["created_utc"].append(self.comment.created_utc)
+        self.data["edited"].append(self.comment.edited)
 
     def saveData(self):
         super().saveData("CommentData.json")

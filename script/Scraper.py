@@ -80,6 +80,7 @@ class Scraper:
             pass
         else:
             self.authordata.retrieveData(comment)
+            # Incrementing rather than calling getLength (less expensive); function returns 0/1 depending on if comment was collected.
             self.numOfSamples += self.commentdata.retrieveData(
                 comment, threadid)
             if comment.gildings:
