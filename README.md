@@ -64,3 +64,9 @@ If you want to try the electron app:
 
 - Make sure to download electron and node.js
 - Run using npm start .
+
+### Improvements/Progress
+
+- [ ] Add ability to rerun scraper after completing one "round" of scraping (reenable submit button)
+- [ ] Improving the save/checkpoint system
+- [ ] Windows, Linux and MacOS installable/portable packages
