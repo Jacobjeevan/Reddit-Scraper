@@ -1,13 +1,13 @@
 #! usr/bin/env python3
-import sys
-import praw
-import time
-import argparse
 import json
-from CommentData import CommentData
-from AuthorData import AuthorData
-from GildData import GildData
-from ThreadData import ThreadData
+import argparse
+import time
+import praw
+import sys
+from script.CommentData import CommentData
+from script.AuthorData import AuthorData
+from script.GildData import GildData
+from script.ThreadData import ThreadData
 
 
 class Scraper:
@@ -60,7 +60,7 @@ class Scraper:
     def scrape(self):
         subreddit = self.subreddit
         self.numOfSamples = self.commentdata.getLength()
-        interval = 50
+        interval, intervalRemainder, intervalMaximum = self.calculateInterval()
         checkpoint = self.numOfSamples+interval
         for submission in subreddit:
             self.threaddata.retrieveData(submission)
@@ -68,12 +68,23 @@ class Scraper:
             all_comments = submission.comments.list()
             for comment in all_comments:
                 self.retrieveAll(comment, submission.id)
-                if (self.numOfSamples == checkpoint and self.gui):
-                    # Print numOfSamples collected with interval of 50 samples
-                    self.printMessage()
+                """Ex: If minimum # of records asked to scrape were 1023. IntervalMaximum would be 1000 and intervalRemainder would be 23.
+                    The program will scrape till 1000 with a checkpoint of 50 (saving after collecting 50 records). Then it will scrape 23 additional records. """
+                if (self.numOfSamples == intervalMaximum):
+                    checkpoint += intervalRemainder
+                    # Handle case where record is not collected due to errors (deleted comment); Avoid incrementing once more.
+                    intervalRemainder = 0
+                elif (self.numOfSamples == checkpoint):
                     checkpoint += interval
-                    self.checkSaveConditions()
+                    self.printMessage()
+                    self.saveAllData()
                     self.checkExitConditions()
+
+    def calculateInterval(self):
+        interval = 50
+        intervalRemainder = self.minimum % interval
+        intervalMaximum = self.minimum - intervalRemainder
+        return interval, intervalRemainder, intervalMaximum
 
     def retrieveAll(self, comment, threadid):
         if (self.checkAuthorOrCommentIsDeleted(comment) or self.checkIfAuthorIsSuspended(comment)):
@@ -98,10 +109,6 @@ class Scraper:
         except AttributeError:
             pass
         return False
-
-    def checkSaveConditions(self):
-        self.printMessage()
-        self.saveAllData()
 
     def saveAllData(self):
         self.authordata.saveData()
@@ -155,7 +162,7 @@ class Scraper:
 def build_parser():
     """Parser to grab and store command line arguments"""
     MINIMUM = 200000
-    SAVEPATH = "../data/raw/"
+    SAVEPATH = "data/raw/"
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "subreddit", help="Specify the subreddit to scrape from")

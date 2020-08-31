@@ -5,3 +5,5 @@ Pipfile
 Pipfile.lock
 data/
 package-lock.json
+prawConfig.json
+test.py

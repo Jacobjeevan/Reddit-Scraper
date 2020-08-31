@@ -7,7 +7,7 @@ class Data:
 
     def __init__(self):
         super().__init__()
-        self.data = None
+        self.data = {}
         self.dirname = os.path.dirname(__file__)
         self.length = 0
         self.savepath = "../../data/raw/"
@@ -21,7 +21,17 @@ class Data:
 
     def saveData(self, filename):
         filename = self.savepath + filename
-        json.dump(self.data, open(filename, "a"))
+        if (os.path.exists(filename)):
+            self.data = self.appendToExistingFile(filename)
+        json.dump(self.data, open(filename, "w"))
+
+    def appendToExistingFile(self, filename):
+        with open(filename, "r") as readFile:
+            data = json.load(readFile)
+            for key in data:
+                if self.data[key] != []:
+                    data[key].extend(self.data[key])
+        return data
 
     def clearData(self):
         pass

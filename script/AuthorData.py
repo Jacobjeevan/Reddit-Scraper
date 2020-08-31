@@ -1,4 +1,4 @@
-from Data import Data
+from .Data import Data
 import praw
 
 

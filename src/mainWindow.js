@@ -141,7 +141,7 @@ function runScraper() {
   let minimumComments = document.querySelector("#minimumCommentsInput").value;
   argsArray = [
     "-u",
-    path.join(__dirname, "..", "script", "Scraper.py"),
+    path.join(__dirname, "..", "Scraper.py"),
     subreddit,
     "-m",
     minimumComments,
