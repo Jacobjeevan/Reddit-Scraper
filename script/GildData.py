@@ -32,4 +32,5 @@ class GildData(Data):
         self.clearData()
 
     def loadData(self):
-        self.data = super().loadData("GildData.json")
+        super().loadData("GildData.json")
+        super().setMetaData("comment_ids")

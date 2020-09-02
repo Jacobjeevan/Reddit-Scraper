@@ -47,4 +47,5 @@ class ThreadData(Data):
         self.clearData()
 
     def loadData(self):
-        self.data = super().loadData("ThreadData.json")
+        super().loadData("ThreadData.json")
+        super().setMetaData("thread_ids")

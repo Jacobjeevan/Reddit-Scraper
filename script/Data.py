@@ -39,8 +39,11 @@ class Data:
     def loadData(self, filename):
         filename = self.savepath + filename
         with open(filename, "r") as write_file:
-            data = json.load(write_file)
-        return data
+            self.data = json.load(write_file)
+
+    def setMetaData(self, recordTracker):
+        self.setTracker(self.data[recordTracker])
+        self.setLength(len(self.data[recordTracker]))
 
     def setLength(self, length):
         self.length = length

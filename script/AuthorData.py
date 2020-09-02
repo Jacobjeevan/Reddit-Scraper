@@ -39,4 +39,5 @@ class AuthorData(Data):
         self.clearData()
 
     def loadData(self):
-        self.data = super().loadData("AuthorData.json")
+        super().loadData("AuthorData.json")
+        super().setMetaData("author_ids")

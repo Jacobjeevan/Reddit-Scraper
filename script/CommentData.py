@@ -39,4 +39,5 @@ class CommentData(Data):
         self.clearData()
 
     def loadData(self):
-        self.data = super().loadData("CommentData.json")
+        super().loadData("CommentData.json")
+        super().setMetaData("comment_ids")
