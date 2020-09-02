@@ -71,7 +71,7 @@ class Scraper:
                 self.retrieveAll(comment, submission.id)
                 """Ex: If minimum # of records asked to scrape were 1023. IntervalMaximum would be 1000 and intervalRemainder would be 23.
                     The program will scrape till 1000 with a checkpoint of 50 (saving after collecting 50 records). Then it will scrape 23 additional records. """
-                if (self.numOfSamples == intervalMaximum):
+                if (intervalMaximum is not None and self.numOfSamples == intervalMaximum):
                     checkpoint += intervalRemainder
                     # Handle case where record is not collected due to errors (deleted comment); Avoid incrementing once more.
                     intervalRemainder = 0
@@ -85,6 +85,8 @@ class Scraper:
         interval = 50
         intervalRemainder = self.minimum % interval
         intervalMaximum = self.minimum - intervalRemainder
+        if intervalMaximum == self.minimum:
+            intervalMaximum = None
         return interval, intervalRemainder, intervalMaximum
 
     def retrieveAll(self, comment, threadid):
