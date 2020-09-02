@@ -21,6 +21,7 @@ class Scraper:
 
     def parseArgs(self, args):
         self.minimum = args.minimum
+        self.loadedFileNumRecords = 0
         if self.savepath != args.savepath:
             self.savepath = args.savepath
             self.setDifferentSavepath()
@@ -56,7 +57,8 @@ class Scraper:
         self.commentdata.loadData()
         self.gilddata.loadData()
         self.authordata.loadData()
-        self.minimum += self.commentdata.getLength()
+        self.loadedFileNumRecords = self.commentdata.getLength()
+        self.minimum += self.loadedFileNumRecords
 
     def scrape(self):
         subreddit = self.subreddit
@@ -127,12 +129,15 @@ class Scraper:
                 self.exitPrompts()
 
     def printMessage(self):
+        # Handles case where data is loaded in. loadedFileNumRecords correspond to number of comments that were present in
+        # the existing data file (that was loaded).
+        numSamples = self.numOfSamples - self.loadedFileNumRecords
         if self.gui:
-            print(self.numOfSamples)
+            print(numSamples)
         else:
             exectime = self.getElapsedTime()
             print(
-                f"{self.numOfSamples} collected so far. Elapsed Time: {exectime} hours")
+                f"{numSamples} collected so far. Elapsed Time: {exectime} hours")
 
     def getElapsedTime(self):
         return round(((time.time() - self.exectime) / (60*60)), 3)
