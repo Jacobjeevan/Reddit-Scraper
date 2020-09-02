@@ -68,5 +68,5 @@ If you want to try the electron app:
 ### Improvements/Progress
 
 - [ ] Add ability to rerun scraper after completing one "round" of scraping (reenable submit button)
-- [ ] Improving the save/checkpoint system
+- [x] Improving the save/checkpoint system
 - [ ] Windows, Linux and MacOS installable/portable packages
