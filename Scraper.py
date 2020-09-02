@@ -56,6 +56,7 @@ class Scraper:
         self.commentdata.loadData()
         self.gilddata.loadData()
         self.authordata.loadData()
+        self.minimum += self.commentdata.getLength()
 
     def scrape(self):
         subreddit = self.subreddit
@@ -167,7 +168,7 @@ def build_parser():
     parser.add_argument(
         "subreddit", help="Specify the subreddit to scrape from")
     parser.add_argument("-m", "--minimum",
-                        help="Specify the minimum number of data records to collect. If load file option is used, then minimum will include comment length from loaded file.",
+                        help="Specify the minimum number of data records to collect. For load data option, this means min number of new records to collect.",
                         type=int, default=MINIMUM)
     parser.add_argument("-s", "--savepath",
                         help="Save/load folder", type=str, default=SAVEPATH)
